@@ -1,6 +1,7 @@
 package calclib
 
 import (
+	"errors"
 	"math"
 	"sort"
 )
@@ -44,29 +45,27 @@ func CalculateMedian(list []float64) float64 {
 	med := len(list)
 	res := 0.0
 
-	if med%2 != 0 {
-		res = list[med/2]
-	} else {
+	if med%2 == 0 {
 		res = (list[(med-1)/2] + list[med/2]) / 2
+	} else {
+		res = list[med/2]
 	}
 
 	return res
 }
 
-func CalculatePercentile(data PercentileInputWrapper) float64 {
+func CalculatePercentile(data PercentileInputWrapper) (float64, error) {
 	// Find the length of items in the slice
 	il := len(data.List)
 
 	// Return an error for empty slices
 	if il == 0 {
-		//c.IndentedJSON(http.StatusBadRequest, "for empty slices")
-		return -1
+		return -1, errors.New("empty slices")
 	}
 
 	// Return error for less than 0 or greater than 100 percentages
 	if data.Percentile < 0 || data.Percentile > 100 {
-		//c.IndentedJSON(http.StatusBadRequest, "for empty slices")
-		return -2
+		return -2, errors.New("outside of percentile limites")
 	}
 
 	// Start by sorting a copy of the slice
@@ -86,6 +85,5 @@ func CalculatePercentile(data PercentileInputWrapper) float64 {
 		}
 		res = data.List[or-1]
 	}
-
-	return res
+	return res, nil
 }
