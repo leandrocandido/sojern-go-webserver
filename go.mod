@@ -1,8 +1,11 @@
-module example/web-service-gin
+module webapi
 
 go 1.17
 
-require github.com/gin-gonic/gin v1.7.7
+require (
+	github.com/gin-gonic/gin v1.7.7
+	webapi/calclib v0.0.0-00010101000000-000000000000
+)
 
 require (
 	github.com/gin-contrib/sse v0.1.0 // indirect
@@ -20,3 +23,5 @@ require (
 	golang.org/x/sys v0.0.0-20200116001909-b77594299b42 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
+
+replace webapi/calclib => ./calclib
